@@ -44,10 +44,13 @@
     - redis
     - config
 
-- name:
+- name: Create ulimit config file for redis
   lineinfile: dest=/etc/sysconfig/redis
               state=present
               create=yes
+              owner=root
+              group=root
+              mode=0644
               line='ulimit -n {{ max_open_files }}'
   notify: restart redis
   tags:
