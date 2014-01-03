@@ -5,6 +5,8 @@
             owner=root
             group=root
             mode=0600
-  notify: restart iptables
+  notify:
+    - stop iptables
+    - start iptables
   tags:
     - firewall

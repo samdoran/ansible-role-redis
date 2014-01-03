@@ -1,6 +1,9 @@
 ---
-- name: restart iptables
-  service: name=iptables state=restarted
+- name: stop iptables
+  service: name=iptables state=stopped
+
+- name: start iptables
+  service: name=iptables state=started
 
 - name: restart redis
   service: name=redis state=restarted
