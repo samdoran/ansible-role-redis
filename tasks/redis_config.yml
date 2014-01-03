@@ -44,6 +44,16 @@
     - redis
     - config
 
+- name: Create ulimit config file for redis (this is a bug)
+  file: path=/etc/sysconfig/redis
+        state=file
+        owner=root
+        group=root
+        mode=0644
+  tags:
+    - redis
+    - config
+
 - name: Create ulimit config file for redis
   lineinfile: dest=/etc/sysconfig/redis
               create=yes
