@@ -44,26 +44,13 @@
     - redis
     - config
 
-- name: Create ulimit config file for redis (this is a bug)
-  file: path=/etc/sysconfig/redis
-        state=file
-        owner=root
-        group=root
-        mode=0644
-  tags:
-    - redis
-    - config
-
 - name: Create ulimit config file for redis
-  lineinfile: dest=/etc/sysconfig/redis
-              create=yes
-              state=present
-              insertafter='EOF'
-              owner=root
-              group=root
-              mode=0644
-              line='ulimit -n {{ max_open_files }}'
-  notify: restart redis
+  template: src=etc-sysconfig-redis.j2
+            dest=/etc/sysconfig/redis
+            owner=root
+            group=root
+            mode=0644
   tags:
     - redis
     - config
+  notify: restart redis
