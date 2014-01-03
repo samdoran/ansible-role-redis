@@ -1,4 +1,5 @@
 ---
 # Redis ports
 redis_port: 5678
+redis_max_memory: 4098MB
 max_open_files: 100000
