@@ -1,0 +1,55 @@
+---
+- name: Install redis
+  yum: name=redis state=present
+  tags:
+    - redis
+
+- name: Enable redis
+  service: name=redis enabled=yes state=started
+  tags:
+    - redis
+
+- name: Copy redis configuration
+  template: src=etc-redis.conf.j2
+            dest=/etc/redis.conf
+            owner=root
+            group=root
+            mode=0644
+  tags:
+    - redis
+    - config
+  notify: restart redis
+
+- name: Allow vm overcommit
+  lineinfile: dest=/etc/sysctl.conf
+              state=present
+              regexp='{{ item }}'
+              insertafter='EOF'
+              line='{{ item }}'
+  with_items:
+    - ''
+    - '# Enable overcommit_memory for redis'
+    - '# Allow redis to fork process to write to disk without requiring tons of RAM'
+    - 'vm.overcommit_memory = 1'
+  tags:
+    - redis
+    - config
+
+- name: Raise max open files for redis
+  lineinfile: dest=/etc/security/limits.d/90-nproc.conf
+              state=present
+              insertafter='EOF'
+              line='redis      -       nproc     {{ max_open_files }}'
+  tags:
+    - redis
+    - config
+
+- name:
+  lineinfile: dest=/etc/sysconfig/redis
+              state=present
+              create=yes
+              line='ulimit -n {{ max_open_files }}'
+  notify: restart redis
+  tags:
+    - redis
+    - config

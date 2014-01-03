@@ -1,2 +1,0 @@
-# Set max open files
-ulimit -n 100000

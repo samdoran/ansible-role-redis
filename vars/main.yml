@@ -1,3 +1,4 @@
 ---
 # Redis ports
 redis_port: 5678
+max_open_files: 100000

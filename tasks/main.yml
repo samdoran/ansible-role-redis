@@ -1,0 +1,3 @@
+---
+- include: redis_config.yml
+- include: redis_firewall.yml
