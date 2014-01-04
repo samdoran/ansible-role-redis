@@ -1,14 +1,4 @@
 ---
-- name: Install redis
-  yum: name=redis state=present
-  tags:
-    - redis
-
-- name: Enable redis
-  service: name=redis enabled=yes state=started
-  tags:
-    - redis
-
 - name: Copy redis configuration
   template: src=etc-redis.conf.j2
             dest=/etc/redis.conf
@@ -19,6 +9,16 @@
     - redis
     - config
   notify: restart redis
+
+- name: Install redis
+  yum: name=redis state=present
+  tags:
+    - redis
+
+- name: Enable redis
+  service: name=redis enabled=yes state=started
+  tags:
+    - redis
 
 - name: Allow vm overcommit
   lineinfile: dest=/etc/sysctl.conf
