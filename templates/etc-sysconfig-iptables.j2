@@ -6,8 +6,9 @@
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -p icmp -j ACCEPT
 -A INPUT -i lo -j ACCEPT
--A INPUT -p tcp -m state --state NEW -m tcp --dport {{ ssh_port }} -j ACCEPT
--A INPUT -p tcp -m state --state NEW -m tcp --dport {{ redis_port }} -j ACCEPT
+-A INPUT -s 172.30.240.0/20 -p tcp -m state --state NEW -m tcp --dport {{ ssh_port }} -j ACCEPT
+-A INPUT -s 192.168.81.128/25 -p tcp -m state --state NEW -m tcp --dport {{ redis_port }} -j ACCEPT
+-A INPUT -s 192.168.81.17 -p tcp -m state --state NEW -m tcp --dport {{ redis_port }} -j ACCEPT
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
 -A FORWARD -j REJECT --reject-with icmp-host-prohibited
 COMMIT
