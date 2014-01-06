@@ -6,6 +6,6 @@
             group=root
             mode=0600
   notify:
-    - reload iptables
+    - restart iptables
   tags:
     - firewall
