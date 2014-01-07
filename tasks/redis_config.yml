@@ -38,10 +38,11 @@
   lineinfile: dest=/etc/security/limits.d/90-nproc.conf
               state=present
               insertafter='EOF'
-              line='edis      -       nofile    {{ max_open_files }}'
+              line='redis      -       nofile    {{ max_open_files }}'
   tags:
     - redis
     - config
+  notify: restart redis
 
 - name: Create ulimit config file for redis
   template: src=etc-sysconfig-redis.j2
