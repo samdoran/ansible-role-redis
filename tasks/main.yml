@@ -1,3 +1,2 @@
 ---
 - include: redis_config.yml
-- include: roles/common/tasks/firewall.yml
