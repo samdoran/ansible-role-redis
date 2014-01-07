@@ -27,7 +27,7 @@
               insertafter='EOF'
               line='{{ item }}'
   with_items:
-    - '# Enable overcommit_memory for redis'
+    - '\n# Enable overcommit_memory for redis'
     - '# Allow redis to fork process to write to disk without requiring tons of RAM'
     - 'vm.overcommit_memory = 1'
   tags:
@@ -38,7 +38,7 @@
   lineinfile: dest=/etc/security/limits.d/90-nproc.conf
               state=present
               insertafter='EOF'
-              line='redis      -       nproc     {{ max_open_files }}'
+              line='edis      -       nofile    {{ max_open_files }}'
   tags:
     - redis
     - config
