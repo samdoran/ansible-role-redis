@@ -1,2 +1,27 @@
 ---
-- include: redis_config.yml
+- name: Copy redis configuration
+  template: src=etc-redis.conf.j2 dest=/etc/redis.conf owner=root group=root mode=0644
+  tags: [ 'redis' , 'redisconfig' ]
+  notify: restart redis
+
+- name: Install redis
+  yum: name=redis state=present
+  tags: [ 'redis' ]
+
+- name: Enable redis
+  service: name=redis enabled=yes state=started
+  tags: [ 'redis' ]
+
+- name: Allow vm overcommit
+  sysctl: name=vm.overcommit_memory value=1 state=present reload=yes ignoreerrors=yes
+  tags: [ 'redis' , 'redisconfig' ]
+
+- name: Raise max open files for redis
+  template: src=91-redis.conf.j2 dest=/etc/security/limits.d/91-redis.conf backup=yes owner=root group=root mode=0644
+  tags: [ 'redis' , 'redisconfig' ]
+  notify: restart redis
+
+- name: Create ulimit config file for redis
+  template: src=etc-sysconfig-redis.j2 dest=/etc/sysconfig/redis backup=yes owner=root group=root mode=0644
+  tags: [ 'redis' , 'redisconfig' ]
+  notify: restart redis
