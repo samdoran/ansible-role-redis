@@ -25,3 +25,13 @@
   template: src=etc-sysconfig-redis.j2 dest=/etc/sysconfig/redis backup=yes owner=root group=root mode=0644
   tags: [ 'redis' , 'redisconfig' ]
   notify: restart redis
+
+- name: Allow redis to bind to non-default port
+  seport:
+    context: redis_port_t
+    port: "{{ redis_port }}"
+    protocol: tcp
+    state: present
+  when: redis_port != 6379
+  tags: [ 'redis' , 'redisconfig' , 'selinux' ]
+  notify: restart redis
