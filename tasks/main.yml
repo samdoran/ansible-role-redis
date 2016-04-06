@@ -16,7 +16,6 @@
     - redis-version
     - redis-selinux
     - redis-config
-    - debug
 
 - name: Set redis_version
   set_fact:
@@ -26,17 +25,6 @@
     - redis-version
     - redis-selinux
     - redis-config
-    - debug
-
-- debug: var=redis_version_check
-  tags: redis-config
-
-- debug: var=redis_version
-  tags: redis-config
-
-- debug: msg="HIT"
-  when: redis_version <= 2.3
-  tags: redis-config
 
 - name: Copy redis configuration
   template:
