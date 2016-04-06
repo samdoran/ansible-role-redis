@@ -1,10 +1,10 @@
 ---
 galaxy_info:
   author: Sam Doran
-  description:
+  description: Install redis, in in-memory data structure store.
   company: ""
   license: MIT
-  min_ansible_version: 1.9
+  min_ansible_version: 2.0
 
   platforms:
   - name: EL
