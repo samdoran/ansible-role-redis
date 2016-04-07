@@ -3,5 +3,6 @@
   remote_user: vagrant
   become: True
   roles:
-    - repo-remi
+    - { role: repo-epel, when: redis_major_version == 2 }
+    - { role: repo-remi, when: redis_major_version == 3 }
     - redis
