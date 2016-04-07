@@ -3,7 +3,7 @@
   yum:
     name: redis
     state: latest
-    # enablerepo: remi
+    enablerepo: "{{ redis_repo }}"
   tags:
     - redis
 
@@ -38,7 +38,7 @@
     - redis
     - redis-config
 
-- name: Enable redis
+- name: Start and enable redis
   service:
     name: redis
     enabled: yes
@@ -46,7 +46,7 @@
   tags:
     - redis
 
-- name: Allow vm overcommit
+- name: Allow VM overcommit
   sysctl:
     name: vm.overcommit_memory
     value: 1

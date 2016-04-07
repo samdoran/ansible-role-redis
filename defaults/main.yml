@@ -1,5 +1,7 @@
 ---
 redis_max_open_files: 65536
+redis_major_version: 2
+redis_repo: "{%if redis_major_version == 2 %}epel{% elif redis_major_version == 3 %}remi{% endif %}"
 
 ################################## INCLUDES ###################################
 
@@ -269,7 +271,7 @@ redis_repl_ping_slave_period: 10
 # By default we optimize for low latency, but in very high traffic conditions
 # or when the master and slaves are many hops away, turning this to "yes" may
 # be a good idea.
-redis_repl_disable_tcp_nodelay: no
+redis_repl_disable_tcp_nodelay: "no"
 
 # Set the replication backlog size. The backlog is a buffer that accumulates
 # slave data when slaves are disconnected for some time, so that when a slave
