@@ -1,38 +1,40 @@
-Role Name
+Redis
 ========
+[![Galaxy](https://img.shields.io/badge/galaxy-samdoran.redis-blue.svg?style=flat)](https://galaxy.ansible.com/samdoran/redis)
 
-A brief description of the role goes here.
+Install [redis](http://redis.io), an in-memory data structure store, on RHEL 6/7.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Name              | Default Value       | Description          |
+|-------------------|---------------------|----------------------|
+| `redis_major_version` | `2` | Major version of `redis` to install. Version 2 comes from `epel`, version 3 comes from `remi`. Changing this variable changes the repository enabled during installation. |
+| `redis_max_open_files` | `65536` | Sets the `ulimit` value for the `redis` user. |
+
+All variables in the `redis.conf` file are available to the role. They are defined, along with comments from the original `redis.conf`, in `defaults/main.yml`. The `redis.conf.j2` tempalate will insert different settings based on the version of `redis` running on the target host.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- samdoran.repo-epel (for `redis` 2.x)
+- samdoran.repo-remi (for `redis` 3.x)
 
 Example Playbook
 -------------------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
+    - hosts: redis
       roles:
-         - { role: username.rolename, x: 42 }
+        - { role: samdoran.repo-epel, when: redis_major_version == 2 }
+        - { role: samdoran.repo-remi, when: redis_major_version == 3 }
+        - redis
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT
