@@ -168,8 +168,9 @@ vm-max-threads {{ redis_vm_max_threads }}
 
 ############################### ADVANCED CONFIG ################################
 
-hash-max-ziplist-entries {{ redis_hash_max_ziplist_entries }}
-hash-max-ziplist-value {{ redis_hash_max_ziplist_value }}
+{# The name of the 'hash-max-ziplist' parameter used to be 'hash-max-zipmap' in redis 2.4 #}
+hash-max-zip{%if (redis_version | float) < 2.8 %}map{% else %}list{% endif %}-entries {{ redis_hash_max_ziplist_entries }}
+hash-max-zip{%if (redis_version | float) < 2.8 %}map{% else %}list{% endif %}-value {{ redis_hash_max_ziplist_value }}
 list-max-ziplist-entries {{ redis_list_max_ziplist_entries }}
 list-max-ziplist-value {{ redis_list_max_ziplist_value }}
 set-max-intset-entries {{ redis_set_max_intset_entries }}
